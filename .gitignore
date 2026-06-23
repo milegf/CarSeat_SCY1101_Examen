@@ -35,7 +35,6 @@ htmlcov/
 notebooks/.ipynb_checkpoints/
 
 # Salidas y artefactos generados
-data/processed/
 data/interim/
 *.log
 
