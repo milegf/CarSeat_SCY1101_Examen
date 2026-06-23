@@ -1,0 +1,47 @@
+# Archivos de git
+.git
+
+# Archivos de configuración de Visual Studio Code
+.vscode/
+
+# Archivos de documentación propia
+documentos/
+
+# Entornos y paquetes Python
+.venv/
+venv/
+env/
+envs/
+.conda/
+conda/
+__pycache__/
+*.py[cod]
+.python-version
+.uv/
+
+# Variables de entorno
+.env
+
+# Cachés y reportes de herramientas
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# Salidas y artefactos generados
+data/processed/
+data/interim/
+*.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de Claude
+.claude/
