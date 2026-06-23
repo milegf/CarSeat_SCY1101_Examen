@@ -3,3 +3,5 @@ numpy
 requests
 jupyter
 ipykernel
+matplotlib
+seaborn
