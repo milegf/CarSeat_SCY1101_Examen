@@ -5,3 +5,6 @@ jupyter
 ipykernel
 matplotlib
 seaborn
+dash
+plotly
+pyngrok
