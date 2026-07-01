@@ -75,6 +75,7 @@ Luego, en la celda de la Sección 3, cambiar `USE_NGROK = False` por `USE_NGROK 
 
 - **`docs/Arquitectura.pdf`**: compara las arquitecturas Lambda, Lakehouse y Pipeline Híbrido Modular, y justifica por qué esta última es la utilizada en el proyecto.
 - **`docs/Docker.pdf`**: investigación sobre Docker en ciencia de datos.
+- **`docs/Informe_examen.pdf`**: informe sobre el proyecto realizado en base a la metodología CRISP-DM.
 
 ## Resultados Principales
 
