@@ -9,16 +9,16 @@ Solución end-to-end de análisis de ventas para el dataset Car Seats: pipeline 
 ```
 .
 ├── data/
-│   ├── raw/                    # dataset_car_seats.csv (original, sin modificar)
-│   └── processed/               # carseats_clp.csv (salida del ETL: CLP + HighSales)
+│   ├── raw/                 # dataset_car_seats.csv (original, sin modificar)
+│   └── processed/           # carseats_clp.csv (salida del ETL: CLP + HighSales)
 ├── notebooks/
-│   └── CarSeats_Ev3.ipynb       # Notebook principal: ETL, EDA, preparación y modelos
+│   └── CarSeats_Ev3.ipynb   # Notebook principal: ETL, EDA, preparación y modelos
 ├── src/
-│   └── dashboard.py              # Dashboard Plotly Dash (proceso independiente)
+│   └── dashboard.py         # Archivo de la entrega anterior (sin uso, sección 3 en notebook principal)
 ├── docs/
-│   ├── Arquitectura.pdf          # Comparación de arquitecturas y justificación
-│   ├── Docker.pdf                # Investigación de Docker en ciencia de datos
-│   └── img/                      # Diagramas usados en Arquitectura.pdf
+│   ├── Arquitectura.pdf     # Comparación de arquitecturas y justificación
+│   ├── Docker.pdf           # Investigación de Docker en ciencia de datos
+│   └── img/                 # Diagramas usados en Arquitectura.pdf
 ├── requirements.txt
 └── README.md
 ```
@@ -40,27 +40,36 @@ pip install -r requirements.txt
 jupyter notebook notebooks/CarSeats_Ev3.ipynb
 ```
 
-Se recomienda **Kernel → Restart & Run All** para verificar que corre de principio a fin sin errores. El notebook cubre, en orden: importaciones, pipeline ETL (Sección 1), análisis exploratorio (Sección 2), diseño del dashboard (Sección 3, documentado pero no ejecutado desde aquí), preparación de datos (Sección 4), modelos supervisados (Sección 5) y conclusiones generales (Sección 6).
+Se recomienda **Kernel → Restart & Run All** para verificar que corre de principio a fin sin errores. El notebook cubre, en orden: importaciones, pipeline ETL (Sección 1), análisis exploratorio (Sección 2), dashboard embebido con Plotly Dash (Sección 3), preparación de datos (Sección 4), modelos supervisados (Sección 5) y conclusiones generales (Sección 6).
 
-El notebook genera `data/processed/carseats_clp.csv`, que es el archivo que después consume el dashboard de forma independiente.
+El notebook genera `data/processed/carseats_clp.csv` en la Sección 1 (ETL), y ese mismo archivo es el que consume el dashboard embebido en la Sección 3.
 
 ## Cómo Ejecutar el Dashboard
 
-El dashboard vive en un script aparte (`src/dashboard.py`) y no dentro del notebook, porque un servidor de Dash queda corriendo de forma indefinida y bloquearía la ejecución del notebook si estuviera en una celda.
+El dashboard corre directamente dentro del notebook (Sección 3), usando `app.run(jupyter_mode="inline")`, es decir, el servidor se levanta en un hilo de fondo sin bloquear el kernel, por lo que "Run All" sigue ejecutando con normalidad las secciones de modelos y conclusiones.
+
+**Solo local:**
 
 ```bash
-# Solo local
-python src/dashboard.py
-# -> http://127.0.0.1:8050
-
-# Local + túnel público con ngrok (requiere cuenta en ngrok.com)
-export NGROK_AUTHTOKEN=tu_token_aqui
-python src/dashboard.py --ngrok
+jupyter notebook notebooks/CarSeats_Ev3.ipynb
 ```
 
-Si `--ngrok` falla (sin token o sin internet), el dashboard local sigue funcionando igual, solo no se genera la URL pública.
+Con `USE_NGROK = False` (valor por defecto en la celda de la Sección 3), Kernel → Restart & Run All. El dashboard queda dentro de esta sección y disponible en `http://127.0.0.1:8050` mientras el kernel siga corriendo.
 
-Para detenerlo: `Ctrl+C` en la misma terminal, o `pkill -f "src/dashboard.py"`.
+**Local + túnel público con ngrok, desde el inicio:**
+
+```bash
+export NGROK_AUTHTOKEN=tu_token_aqui
+jupyter notebook notebooks/CarSeats_Ev3.ipynb
+```
+
+Luego, en la celda de la Sección 3, cambiar `USE_NGROK = False` por `USE_NGROK = True` antes de ejecutarla (Kernel → Restart & Run All). Si el túnel falla (sin token o sin internet), el dashboard local sigue funcionando igual, solo no se genera la URL pública.
+
+**Para detener el servidor:** Kernel → Shut Down Kernel (o Restart Kernel) desde la interfaz de Jupyter, o `Ctrl+C` en la terminal donde corre `jupyter notebook` para apagar todos los kernels.
+
+> Si ya se ejecutó el notebook sin ngrok y quiere activarlo después, cambie `USE_NGROK` a `True` y use Kernel → Restart & Run All (no solo re-ejecutar la celda), para asegurar que el servidor arranque limpio en ese kernel.
+
+> `src/dashboard.py` es el archivo de la entrega anterior. Se mantiene en el repositorio como referencia con la misma lógica, pero ya no está conectado al notebook y no es necesario ejecutarlo, todo el dashboard se encuentra en la Sección 3 del notebook.
 
 ## Documentación Adicional
 
@@ -75,4 +84,4 @@ Para detenerlo: `Ctrl+C` en la misma terminal, o `pkill -f "src/dashboard.py"`.
 
 ## Flujo de Trabajo con Git
 
-Una rama por etapa del proyecto (`feature/etl`, `feature/eda`, `feature/dashboard`, `feature/modelos`, `feature/docs`), integradas en `develop` antes de llegar a `main`.
+Una rama por etapa del proyecto (`feature/etl`, `feature/eda`, `feature/dashboard`, `feature/modelos`, `feature/docs`, `fix/manejo-nuloes`, `fix/dashboard` ), integradas en `develop` antes de llegar a `main`.
